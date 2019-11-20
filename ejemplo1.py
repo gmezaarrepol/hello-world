@@ -9,3 +9,5 @@ print (b)
 
 for elemento in a:
     print(elemento)
+
+print("lol")
