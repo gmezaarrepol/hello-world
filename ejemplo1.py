@@ -6,3 +6,6 @@ print (a)
 b = np.exp(a)
 
 print (b)
+
+for elemento in a:
+    print(elemento)
