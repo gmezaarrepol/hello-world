@@ -1,0 +1,37 @@
+from bs4 import BeautifulSoup
+import urllib.request
+import requests
+import pandas as pd
+import numpy as np
+import pyodbc
+import glob
+
+# scrap tabla de population por comuna en chile, desde wikipedia
+url = 'https://es.wikipedia.org/wiki/Anexo:Comunas_de_Chile_por_poblaci%C3%B3n'
+
+page = urllib.request.urlopen(url)
+soup = BeautifulSoup(page, 'lxml')
+
+tabla = soup.find('table', class_='wikitable sortable col1cen col2izq col3der col4der')
+
+comuna = []
+region = []
+provincia = []
+poblacion = []
+
+for row in tabla.findAll('tr'):
+    cells = row.findAll('td')
+    if len(cells) == 9:
+        comuna.append(cells[0].find(text=True))
+        region.append(cells[1].find(text=True))
+        provincia.append(cells[2].find(text=True))
+        poblacion.append(cells[3].find(text=True))
+
+df = pd.DataFrame(comuna, columns=['comuna'])
+df['region'] = region
+df['provincia'] = provincia
+df['poblacion'] = poblacion
+
+df['poblacion'] = (df['poblacion'].str.replace(' ', ''))
+
+df.to_csv(r'C:\Users\gonzalo.meza\Desktop\PoblacionComuna.csv', index = False, header = True, encoding = 'latin1')
