@@ -1,5 +1,5 @@
 # hello-world
 prueba de git hub
 
-# aqui incluyo un cambio
-print('cambio')
+Incluire en este repositorio, codigos "comodin" para ser usados en el futuro
+
